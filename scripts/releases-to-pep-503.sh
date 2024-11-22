@@ -1,6 +1,6 @@
 #!/bin/bash
 
-package_name="nexa_enterprise"
+package_name="nexa-enterprise"
 repo_name="nexa-sdk-enterprise"
 
 # Get output directory or default to index/whl/cpu
