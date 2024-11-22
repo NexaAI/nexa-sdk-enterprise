@@ -37,7 +37,7 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/NexaAI/Nexa-SDK-Enterprise"
+Homepage = "https://github.com/NexaAI/nexa-sdk-enterprise"
 
 [tool.scikit-build]
 wheel.packages = [

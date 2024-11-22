@@ -9,7 +9,7 @@ from typing import Dict, List
 import json
 import logging
 import streamlit as st
-from nexa.constants import (
+from nexa_enterprise.constants import (
     EXIT_COMMANDS,
     EXIT_REMINDER,
     NEXA_MODEL_LIST_PATH,

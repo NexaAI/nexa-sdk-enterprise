@@ -151,7 +151,7 @@ class NexaTextInference:
         """
         CLI interactive session. Not for SDK.
         """
-        from nexa.gguf.llama._utils_spinner import start_spinner, stop_spinner
+        from nexa_enterprise.gguf.llama._utils_spinner import start_spinner, stop_spinner
 
         while True:
             generated_text = ""

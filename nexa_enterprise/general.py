@@ -11,7 +11,7 @@ from tqdm import tqdm
 import platform
 import tempfile
 
-from nexa.constants import (
+from nexa_enterprise.constants import (
     NEXA_API_URL,
     NEXA_LOGO,
     NEXA_MODEL_LIST_PATH,
@@ -24,7 +24,7 @@ from nexa.constants import (
     NEXA_TOKEN_PATH,
     NEXA_OFFICIAL_MODELS_TYPE,
 )
-from nexa.constants import ModelType
+from nexa_enterprise.constants import ModelType
 
 def login():
     """
