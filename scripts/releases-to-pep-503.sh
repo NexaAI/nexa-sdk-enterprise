@@ -2,7 +2,6 @@
 
 package_name="nexa_enterprise"
 repo_name="nexa-sdk-enterprise"
-GITHUB_TOKEN="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"
 
 # Get output directory or default to index/whl/cpu
 output_dir=${1:-"index/whl/cpu"}
@@ -44,8 +43,7 @@ echo "    <h1>Links for ${package_name}</h1>" >> index.html
 
 # Get all releases
 echo "Fetching all releases from GitHub for repository: ${repo_name}"
-releases=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
-    "https://api.github.com/repos/NexaAI/${repo_name}/releases" | jq -r .[].tag_name)
+releases=$(curl -s https://api.github.com/repos/NexaAI/${repo_name}/releases | jq -r .[].tag_name)
 
 # Output all retrieved releases for debugging
 echo "All releases retrieved: $releases"
@@ -68,8 +66,7 @@ echo "Filtered releases: $releases"
 # For each release, get all assets
 for release in $releases; do
     echo "Processing release: $release"
-    assets=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" \
-        "https://api.github.com/repos/NexaAI/${repo_name}/releases/tags/$release" | jq -r .assets)
+    assets=$(curl -s https://api.github.com/repos/NexaAI/${repo_name}/releases/tags/$release | jq -r .assets)
     
     # Extract full release version without removing any segments
     release_version=$(echo $release | grep -oE "^[v]?[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?(-[a-zA-Z0-9]+)?$")
