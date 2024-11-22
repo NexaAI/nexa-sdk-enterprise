@@ -80,10 +80,8 @@ for release in $releases; do
     for asset in $(echo $assets | jq -r .[].browser_download_url); do
         if [[ $asset == *".whl" ]]; then
             echo "Adding wheel to index: $asset"
-            echo "    <a href=\"$asset\">$asset</a>" >> index.html
-            echo "    <br>" >> index.html
-        else
-            echo "Skipping non-wheel asset: $asset"
+            filename=$(basename "$asset")
+            echo "    <a href=\"$asset\">${filename}</a><br>" >> index.html
         fi
     done
 done
