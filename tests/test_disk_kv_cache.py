@@ -3,6 +3,8 @@ from nexa_enterprise.gguf.llama.kv_cache import run_inference_with_disk_cache
 import os
 import shutil
 from nexa_enterprise.gguf.lib_utils import is_gpu_available
+from nexa_enterprise.gguf.llama.llama import Llama
+from nexa_enterprise.general import pull_model
 
 # Remove cache directories if they exist
 if os.path.exists("llama.cache"):
@@ -15,22 +17,33 @@ base_prompt2 = """Nexa AI, a Cupertino-based generative AI company, is redefinin
 
 # === prefilling cache ===
 # Test both with and without cache
-model = NexaTextInference(
-    model_path="gemma",
-    local_path=None,
-    verbose=False,
-    n_gpu_layers=-1 if is_gpu_available() else 0,
-    chat_format="llama-2",
+
+model_local_path, model_type = pull_model("llama3")
+
+model = Llama(
+    model_path=model_local_path,
+    n_ctx=8096,
+    n_gpu_layers=-1,
+    chat_format="llama3",
+    verbose=True,
 )
 
 run_inference_with_disk_cache(
     model=model,
-    prompt=base_prompt, max_tokens=1, use_cache=True, cache_dir="llama.cache"
+    cache_prompt=base_prompt,
+    total_prompt=base_prompt,
+    max_tokens=1,
+    use_cache=True,
+    cache_dir="llama.cache",
 )
 
 run_inference_with_disk_cache(
     model=model,
-    prompt=base_prompt2, max_tokens=1, use_cache=True, cache_dir="llama2.cache"
+    cache_prompt=base_prompt2,
+    total_prompt=base_prompt2,
+    max_tokens=1,
+    use_cache=True,
+    cache_dir="llama2.cache",
 )
 
 # === inference ===
@@ -39,17 +52,31 @@ extended_prompt = (
     base_prompt
     + " Summarize this article and return me a summary of it in 30 words or less."
 )
-run_inference_with_disk_cache(
+output = run_inference_with_disk_cache(
     model=model,
-    prompt=extended_prompt, max_tokens=256, use_cache=True, cache_dir="llama.cache"
+    cache_prompt=base_prompt,
+    total_prompt=extended_prompt,
+    max_tokens=256,
+    use_cache=True,
+    cache_dir="llama.cache",
 )
+for chunk in output:
+    if "choices" in chunk:
+        print(chunk["choices"][0]["text"], end="", flush=True)
 
 print("=== 2nd Inference ===")
 extended_prompt2 = (
     base_prompt2
     + " Summarize this article and return me a summary of it in 30 words or less."
 )
-run_inference_with_disk_cache(
+output = run_inference_with_disk_cache(
     model=model,
-    prompt=extended_prompt2, max_tokens=256, use_cache=True, cache_dir="llama2.cache"
+    cache_prompt=base_prompt2,
+    total_prompt=extended_prompt2,
+    max_tokens=256,
+    use_cache=True,
+    cache_dir="llama2.cache",
 )
+for chunk in output:
+    if "choices" in chunk:
+        print(chunk["choices"][0]["text"], end="", flush=True)

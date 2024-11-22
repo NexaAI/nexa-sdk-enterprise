@@ -1,9 +1,10 @@
-from nexa.gguf.llama.llama_cache import LlamaDiskCache
+from nexa_enterprise.gguf.llama.llama_cache import LlamaDiskCache
 from typing import Any, Dict
 
 def run_inference_with_disk_cache(
     model: Any, 
-    prompt: str, 
+    cache_prompt: str,
+    total_prompt: str,
     use_cache: bool = True, 
     cache_dir: str = "llama.cache", 
     **kwargs: Dict[str, Any]
@@ -33,20 +34,49 @@ def run_inference_with_disk_cache(
         cache_context = LlamaDiskCache(cache_dir=cache_dir)
         model.set_cache(cache_context)
         # Convert prompt to tokens for cache key
-        prompt_tokens = model.tokenize(prompt.encode('utf-8'))
-        cached_state = cache_context[prompt_tokens]
-        model.load_state(cached_state)
+        prompt_tokens = model.tokenize(cache_prompt.encode("utf-8"))
+        try:
+            # Try to load existing cache
+            cached_state = cache_context[prompt_tokens]
+            model.load_state(cached_state)
+            output = model(
+                total_prompt,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                stream=True,
+            )
+        except KeyError:
+            # If cache doesn't exist, create it
+            model.reset()
+            # Run initial inference to populate cache
+            _ = model(
+                cache_prompt,
+                max_tokens=1,  # Minimal tokens for cache creation
+                temperature=temperature,
+                echo=False,
+            )
+            # Save the state to cache
+            cache_context[prompt_tokens] = model.save_state()
+            # Generate output after creating cache
+            output = model(
+                total_prompt,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                top_p=top_p,
+                top_k=top_k,
+                repeat_penalty=repeat_penalty,
+                stream=True,
+            )
     else:
         model.reset()
         model.set_cache(None)
-
-    output = model(
-        prompt,
-        max_tokens=max_tokens,
-        temperature=temperature,
-        top_p=top_p,
-        top_k=top_k,
-        repeat_penalty=repeat_penalty,
-        stream=True
-    )
+        output = model(
+            total_prompt,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            top_p=top_p,
+            top_k=top_k,
+            repeat_penalty=repeat_penalty,
+            stream=True,
+        )
     return output
