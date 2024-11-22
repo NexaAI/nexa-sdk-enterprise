@@ -9,7 +9,7 @@ We have released pre-built wheels for various Python versions, platforms, and ba
 ### CPU Installation
 
 ```bash
-pip install nexaai --prefer-binary --index-url https://nexaai.github.io/nexa-sdk/whl/cpu --extra-index-url https://pypi.org/simple --no-cache-dir
+pip install nexa-enterprise --prefer-binary --index-url https://nexaai.github.io/nexa-sdk-enterprise/whl/cpu --extra-index-url https://pypi.org/simple --no-cache-dir
 ```
 
 ### GPU Installation (Vulkan)
@@ -19,27 +19,27 @@ To install with Vulkan support, make sure you have [Vulkan SDK 1.3.261.1 or late
 For **Windows PowerShell**:
 
 ```bash
-$env:CMAKE_ARGS="-DGGML_VULKAN=on"; pip install nexaai --prefer-binary --index-url https://nexaai.github.io/nexa-sdk/whl/vulkan --extra-index-url https://pypi.org/simple --no-cache-dir
+$env:CMAKE_ARGS="-DGGML_VULKAN=on"; pip install nexa-enterprise --prefer-binary --index-url https://nexaai.github.io/nexa-sdk-enterprise/whl/vulkan --extra-index-url https://pypi.org/simple --no-cache-dir
 ```
 
 For **Windows Command Prompt**:
 
 ```bash
-set CMAKE_ARGS="-DGGML_VULKAN=on" & pip install nexaai --prefer-binary --index-url https://nexaai.github.io/nexa-sdk/whl/vulkan --extra-index-url https://pypi.org/simple --no-cache-dir
+set CMAKE_ARGS="-DGGML_VULKAN=on" & pip install nexa-enterprise --prefer-binary --index-url https://nexaai.github.io/nexa-sdk-enterprise/whl/vulkan --extra-index-url https://pypi.org/simple --no-cache-dir
 ```
 
 For **Windows Git Bash**:
 
 ```bash
-CMAKE_ARGS="-DGGML_VULKAN=on" pip install nexaai --prefer-binary --index-url https://nexaai.github.io/nexa-sdk/whl/vulkan --extra-index-url https://pypi.org/simple --no-cache-dir
+CMAKE_ARGS="-DGGML_VULKAN=on" pip install nexa-enterprise --prefer-binary --index-url https://nexaai.github.io/nexa-sdk-enterprise/whl/vulkan --extra-index-url https://pypi.org/simple --no-cache-dir
 ```
 
-### Local Build
+### Local Build (You may need to acquire access to this private repo first.)
 
 How to clone this repo:
 
 ```bash
-git clone --recursive https://github.com/NexaAI/nexa-sdk
+git clone --recursive https://github.com/NexaAI/nexa-sdk-enterprise
 ```
 
 If you forget to use `--recursive`, you can use below command to add submodule:
