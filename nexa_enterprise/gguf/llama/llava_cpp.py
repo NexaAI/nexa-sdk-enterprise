@@ -20,15 +20,15 @@ from typing import (
     TYPE_CHECKING,
 )
 
-import llama_cpp.llama_cpp as llama_cpp
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
 
-from llama_cpp._ctypes_extensions import (
+from nexa_enterprise.gguf.llama._ctypes_extensions import (
     load_shared_library,
     ctypes_function_for_shared_library,
 )
 
 if TYPE_CHECKING:
-    from llama_cpp._ctypes_extensions import (
+    from nexa_enterprise.gguf.llama._ctypes_extensions import (
         CtypesArray,
     )
 

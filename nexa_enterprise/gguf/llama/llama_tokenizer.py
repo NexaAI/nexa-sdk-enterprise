@@ -7,8 +7,8 @@ from typing import (
     Any,
 )
 
-import llama_cpp
-from llama_cpp.llama_types import List
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
+from nexa_enterprise.gguf.llama.llama_types import List
 
 
 class BaseLlamaTokenizer(abc.ABC):

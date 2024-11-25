@@ -2,7 +2,7 @@ import sys
 import ctypes
 import logging
 
-import llama_cpp
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
 
 # enum ggml_log_level {
 #     GGML_LOG_LEVEL_NONE  = 0,

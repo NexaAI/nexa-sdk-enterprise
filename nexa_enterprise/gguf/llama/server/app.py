@@ -9,7 +9,7 @@ from threading import Lock
 from functools import partial
 from typing import Iterator, List, Optional, Union, Dict
 
-import llama_cpp
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
 
 import anyio
 from anyio.streams.memory import MemoryObjectSendStream

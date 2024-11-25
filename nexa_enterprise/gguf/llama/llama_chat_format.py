@@ -28,12 +28,12 @@ from jinja2.sandbox import ImmutableSandboxedEnvironment
 import numpy as np
 import numpy.typing as npt
 
-import llama_cpp.llama as llama
-import llama_cpp.llama_types as llama_types
-import llama_cpp.llama_grammar as llama_grammar
+import nexa_enterprise.gguf.llama.llama_cpp as llama
+import nexa_enterprise.gguf.llama.llama_types as llama_types
+import nexa_enterprise.gguf.llama.llama_grammar as llama_grammar
 
-from ._logger import logger
-from ._utils import suppress_stdout_stderr, Singleton
+from nexa_enterprise.gguf.llama._logger import logger
+from nexa_enterprise.gguf.llama._utils import suppress_stdout_stderr, Singleton
 
 ### Common Chat Templates and Special Tokens ###
 
@@ -2667,7 +2667,7 @@ class Llava15ChatHandler:
     )
 
     def __init__(self, clip_model_path: str, verbose: bool = True):
-        import llama_cpp.llava_cpp as llava_cpp
+        import nexa_enterprise.gguf.llama.llava_cpp as llava_cpp
 
         self.clip_model_path = clip_model_path
         self.verbose = verbose
