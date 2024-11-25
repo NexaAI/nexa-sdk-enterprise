@@ -16,11 +16,11 @@ from contextlib import ExitStack
 import numpy as np
 import numpy.typing as npt
 
-from .llama_types import *
-from .llama_grammar import LlamaGrammar
-from ._utils import suppress_stdout_stderr
+from nexa_enterprise.gguf.llama.llama_types import *
+from nexa_enterprise.gguf.llama.llama_grammar import LlamaGrammar
+from nexa_enterprise.gguf.llama._utils import suppress_stdout_stderr
 
-import llama_cpp.llama_cpp as llama_cpp
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
 
 
 # Python wrappers over llama.h structs
@@ -699,7 +699,7 @@ class LlamaSamplingContext:
 
 from typing import List, Callable, Optional, Union
 import ctypes
-import llama_cpp
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
 
 
 class CustomSampler:

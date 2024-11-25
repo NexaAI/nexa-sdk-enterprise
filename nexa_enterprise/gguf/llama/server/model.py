@@ -4,9 +4,9 @@ import json
 
 from typing import Dict, Optional, Union, List
 
-import llama_cpp
-import llama_cpp.llama_speculative as llama_speculative
-import llama_cpp.llama_tokenizer as llama_tokenizer
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
+import nexa_enterprise.gguf.llama.llama_speculative as llama_speculative
+import nexa_enterprise.gguf.llama.llama_tokenizer as llama_tokenizer
 
 from llama_cpp.server.settings import ModelSettings
 

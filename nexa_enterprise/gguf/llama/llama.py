@@ -30,26 +30,26 @@ from collections import deque
 from pathlib import Path
 
 
-from .llama_types import *
-from .llama_grammar import LlamaGrammar
-from .llama_cache import (
+from nexa_enterprise.gguf.llama.llama_types import *
+from nexa_enterprise.gguf.llama.llama_grammar import LlamaGrammar
+from nexa_enterprise.gguf.llama.llama_cache import (
     BaseLlamaCache,
     LlamaCache,  # type: ignore
     LlamaDiskCache,  # type: ignore
     LlamaRAMCache,  # type: ignore
 )
-from .llama_tokenizer import BaseLlamaTokenizer, LlamaTokenizer
-import llama_cpp.llama_cpp as llama_cpp
-import llama_cpp.llama_chat_format as llama_chat_format
+from nexa_enterprise.gguf.llama.llama_tokenizer import BaseLlamaTokenizer, LlamaTokenizer
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
+import nexa_enterprise.gguf.llama.llama_chat_format as llama_chat_format
 
-from llama_cpp.llama_speculative import LlamaDraftModel
+from nexa_enterprise.gguf.llama.llama_speculative import LlamaDraftModel
 
 import numpy as np
 import numpy.typing as npt
 
-import llama_cpp._internals as internals
-from ._logger import set_verbose
-from ._utils import suppress_stdout_stderr
+import nexa_enterprise.gguf.llama._internals as internals
+from nexa_enterprise.gguf.llama._logger import set_verbose
+from nexa_enterprise.gguf.llama._utils import suppress_stdout_stderr
 
 
 class Llama:

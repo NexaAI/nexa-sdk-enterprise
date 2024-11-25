@@ -5,7 +5,7 @@ from typing_extensions import TypedDict, Literal
 
 from pydantic import BaseModel, Field
 
-import llama_cpp
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
 
 
 model_field = Field(

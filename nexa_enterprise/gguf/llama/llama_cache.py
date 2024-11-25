@@ -9,9 +9,9 @@ from collections import OrderedDict
 
 import diskcache
 
-import llama_cpp.llama
+import nexa_enterprise.gguf.llama as llama_cpp
 
-from .llama_types import *
+from nexa_enterprise.gguf.llama.llama_types import *
 
 
 class BaseLlamaCache(ABC):

@@ -8,7 +8,7 @@ from typing_extensions import Self
 from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings
 
-import llama_cpp
+import nexa_enterprise.gguf.llama.llama_cpp as llama_cpp
 
 # Disable warning for model and model_alias settings
 BaseSettings.model_config["protected_namespaces"] = ()
