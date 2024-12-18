@@ -7,7 +7,7 @@ def run_inference_with_disk_cache(
     total_prompt: str,
     use_cache: bool = True, 
     cache_read_dir: str = "llama.cache",
-    cache_save_dir: str = "llama.cache",
+    cache_save_dir: str | None = "llama.cache",
     **kwargs: Dict[str, Any]
 ) -> str:
     """
@@ -44,9 +44,10 @@ def run_inference_with_disk_cache(
             model.reset()
             model.set_cache(None)
         
-        # Initialize disk cache with specified save directory
-        cache_save_context = LlamaDiskCache(cache_dir=cache_save_dir)
-        model.set_cache(cache_save_context)
+        # Initialize disk cache with specified save directory only if provided
+        if cache_save_dir:
+            cache_save_context = LlamaDiskCache(cache_dir=cache_save_dir)
+            model.set_cache(cache_save_context)
     else:
         model.reset()
         model.set_cache(None)
