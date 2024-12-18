@@ -9,7 +9,7 @@ def run_inference_with_disk_cache(
     cache_read_dir: str = "llama.cache",
     cache_save_dir: str | None = "llama.cache",
     **kwargs: Dict[str, Any]
-) -> str:
+) -> Any:
     """
     Runs inference using a disk cache to store and retrieve model states.
 
@@ -41,16 +41,27 @@ def run_inference_with_disk_cache(
             model.load_state(cached_state)
         except KeyError:
             print("Cache miss: Key not found. Proceeding without cache.")
+            # If inference phase and cache miss
             model.reset()
-            model.set_cache(None)
+            # Manually run initial inference to populate cache
+            _ = model(
+                cache_prompt,
+                max_tokens=1,  # Minimal tokens for cache creation
+                temperature=temperature,
+                echo=False,
+            )
+            # Save the state to cache - at here, we are still saving the cache of the current chunk
+            cache_read_context = LlamaDiskCache(cache_dir=cache_read_dir)
+            cache_read_context[prompt_tokens] = model.save_state()
         
-        # Initialize disk cache with specified save directory only if provided
-        if cache_save_dir:
+        # If inference phase, always need to cache the conversation
+        if max_tokens != 1:
             cache_save_context = LlamaDiskCache(cache_dir=cache_save_dir)
             model.set_cache(cache_save_context)
-    else:
-        model.reset()
-        model.set_cache(None)
+
+    # else:
+    #     model.reset()
+    #     model.set_cache(None)
 
     output = model(
         total_prompt,
@@ -61,11 +72,11 @@ def run_inference_with_disk_cache(
         repeat_penalty=repeat_penalty,
         stream=True,
     )
-
-    # Process streaming output
-    result = ""
-    for item in output:
-        chunk = item['choices'][0]['text']
-        print(chunk, end='', flush=True)
-        result += chunk
-    return result
+    
+    if max_tokens == 1:
+        result = ""
+        for item in output:
+            result += item['choices'][0]['text']
+        return result
+    else:
+        return output
