@@ -56,6 +56,7 @@ def run_inference_with_disk_cache(
         
         # If inference phase, always need to cache the conversation
         if max_tokens != 1:
+            print(f"Caching the conversation")
             cache_save_context = LlamaDiskCache(cache_dir=cache_save_dir)
             model.set_cache(cache_save_context)
 

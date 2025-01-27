@@ -106,3 +106,5 @@ xcuserdata/
 *.playground/playground.xcworkspace/xcuserdata/
 *.generated.plist
 .build/
+
+.pypirc
