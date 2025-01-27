@@ -30,12 +30,6 @@ def run_inference_with_disk_cache(
     top_p = kwargs.get('top_p', 0.8)
     top_k = kwargs.get('top_k', 50)
     repeat_penalty = kwargs.get('repeat_penalty', 1.0)
-    
-    # modified_cache_prompt = cache_prompt.replace(' ', '[SPACE]').replace('\n', '[NEWLINE]') 
-    # modified_total_prompt = total_prompt.replace(' ', '[SPACE]').replace('\n', '[NEWLINE]')
-    
-    # print(f"Perrrrrrrrrrrrrrrrrrrrrrry debugggggggggggggg: {modified_cache_prompt}")
-    # print(f"Perrrrrrrrrrrrrrrrrrrrrrry debugggggggggggggg: {modified_total_prompt}")
 
     if use_cache:
         # Initialize disk cache with specified read directory
