@@ -38,6 +38,7 @@ def run_inference_with_disk_cache(
         prompt_tokens = model.tokenize(cache_prompt.encode("utf-8"))
         try:
             cached_state = cache_read_context[prompt_tokens]
+            print(f"model: {model}")
             model.load_state(cached_state)
         except KeyError:
             print("Cache miss: Key not found. Proceeding without cache.")
@@ -49,6 +50,7 @@ def run_inference_with_disk_cache(
                 max_tokens=1,  # Minimal tokens for cache creation
                 temperature=temperature,
                 echo=False,
+                stream=False
             )
             # Save the state to cache - at here, we are still saving the cache of the current chunk
             cache_read_context = LlamaDiskCache(cache_dir=cache_read_dir)
@@ -56,14 +58,15 @@ def run_inference_with_disk_cache(
         
         # If inference phase, always need to cache the conversation
         if max_tokens != 1:
-            print(f"Caching the conversation")
+            # print(f"Caching the conversation")
             cache_save_context = LlamaDiskCache(cache_dir=cache_save_dir)
             model.set_cache(cache_save_context)
 
-    # else:
-    #     model.reset()
-    #     model.set_cache(None)
+    # Pre-processing stage
+    if max_tokens == 1:
+        return
 
+    # Inference stage
     output = model(
         total_prompt,
         max_tokens=max_tokens,
@@ -74,10 +77,4 @@ def run_inference_with_disk_cache(
         stream=True,
     )
     
-    if max_tokens == 1:
-        result = ""
-        for item in output:
-            result += item['choices'][0]['text']
-        return result
-    else:
-        return output
+    return output
