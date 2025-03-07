@@ -1,8 +1,6 @@
-from nexa_enterprise.gguf.nexa_inference_text import NexaTextInference
 from nexa_enterprise.gguf.llama.kv_cache import run_inference_with_disk_cache
 import os
 import shutil
-from nexa_enterprise.gguf.lib_utils import is_gpu_available
 from nexa_enterprise.gguf.llama.llama import Llama
 from nexa_enterprise.general import pull_model
 

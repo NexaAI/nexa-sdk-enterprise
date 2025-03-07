@@ -151,7 +151,6 @@ class NexaTextInference:
         """
         CLI interactive session. Not for SDK.
         """
-        from nexa_enterprise.gguf.llama._utils_spinner import start_spinner, stop_spinner
 
         while True:
             generated_text = ""
@@ -161,15 +160,9 @@ class NexaTextInference:
 
                 generation_start_time = time.time()
 
-                stop_event, spinner_thread = start_spinner(
-                style="default", 
-                message=""  
-                )
-
                 if self.chat_format:
                     output = self._chat(user_input)
                     first_token = True
-                    stop_spinner(stop_event, spinner_thread) 
 
                     for chunk in output:
                         if first_token:
@@ -187,7 +180,6 @@ class NexaTextInference:
                 else:
                     output = self._complete(user_input)
                     first_token = True
-                    stop_spinner(stop_event, spinner_thread) 
 
                     for chunk in output:
                         if first_token:
@@ -314,32 +306,6 @@ class NexaTextInference:
     def reload_lora(self, lora_path: str, lora_scale: float = 1.0):
         self.model.reload_lora(lora_path, lora_scale)
 
-    def run_streamlit(self, model_path: str, is_local_path = False, hf = False):
-        """
-        Used for CLI. Run the Streamlit UI.
-        """
-        logging.info("Running Streamlit UI...")
-
-        script_path = (
-            Path(os.path.abspath(__file__)).parent
-            / "streamlit"
-            / "streamlit_text_chat.py"
-        )
-
-        import sys
-        from streamlit.web import cli as stcli
-
-        # Convert all arguments to strings
-        args = [
-            "streamlit", "run", str(script_path),
-            str(model_path),
-            str(is_local_path),
-            str(hf),
-        ]
-
-        sys.argv = args
-        sys.exit(stcli.main())
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -411,7 +377,4 @@ if __name__ == "__main__":
     device = kwargs.pop("device", "auto")
 
     inference = NexaTextInference(model_path, stop_words=stop_words, device=device, **kwargs)
-    if args.streamlit:
-        inference.run_streamlit(model_path)
-    else:
-        inference.run()
+    inference.run()
