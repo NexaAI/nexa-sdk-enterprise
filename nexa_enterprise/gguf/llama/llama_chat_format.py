@@ -1013,6 +1013,23 @@ def format_llama3(
     _prompt = _format_no_colon_single("", _messages, _sep)
     return ChatFormatterResponse(prompt=_prompt, stop=_sep)
 
+# Chat format for Phi-3 models, see more details at:
+# https://huggingface.co/microsoft/Phi-3.5-mini-instruct/blob/main/tokenizer_config.json#L119
+@register_chat_format("phi-3")
+def format_phi3(
+    messages: List[llama_types.ChatCompletionRequestMessage],
+    **kwargs: Any,
+) -> ChatFormatterResponse:
+    _roles = dict(
+        system="<|system|>\n",
+        user="<|user|>\n",
+        assistant="<|assistant|>\n",
+    )
+    _sep = "<|end|>\n"
+    _messages = _map_roles(messages, _roles)
+    _messages.append((_roles["assistant"], None))
+    _prompt = _format_no_colon_single("", _messages, _sep)
+    return ChatFormatterResponse(prompt=_prompt, stop=_sep)
 
 @register_chat_format("alpaca")
 def format_alpaca(
